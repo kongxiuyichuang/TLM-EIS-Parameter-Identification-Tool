@@ -132,9 +132,9 @@ def tlm_impedance(f, delta, R0, Re, Ri, Cdl, p, Rct=None):
 
     # 计算界面阻抗 Zt
     if Rct is None:
-        Zt = 1.0 / (j * (omega * Cdl) ** p)
+        Zt = 1.0 / (Cdl * (omega * j) ** p)
     else:
-        Zt = Rct / (1.0 + j * (omega * Cdl) ** p * Rct)
+        Zt = Rct / (1.0 + Cdl * (omega *j ) ** p * Rct)
 
     # 计算传播常数 gamma
     gamma = np.sqrt((Re + Ri) / Zt)
@@ -154,8 +154,8 @@ def tlm_impedance(f, delta, R0, Re, Ri, Cdl, p, Rct=None):
     
     # 第三项：终端项
     # 原式：(1/gamma) * ((Re^2+Ri^2)/(Re+Ri)) * coth(gd)
-    term3 = (1.0 / gamma) * ((Re**2 + Ri**2) / (Re + Ri)) * coth_val
-
+    #term3 = (1.0 / gamma) * ((Re**2 + Ri**2) / (Re + Ri)) * coth_val
+    term3 = (1.0 / gamma) * ((Re**2 + Ri**2) / (Re + Ri)) * (1/np.tanh(gd))
     return term1 + term2 + term3
 
 
